@@ -1,0 +1,331 @@
+/* Importando a fonte Montserrat do Google Fonts para garantir que funcione */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
+
+:root {
+    --field-color: #1a1a2e;
+    --field-border-radius: 8px;
+    --accent-color: #5d68e2;
+    --text-color: #ffffff;
+    --bg-gradient: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    /* Gradiente moderno e escuro */
+    background: #0f0c29; 
+    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29); 
+    background: linear-gradient(to right, #24243e, #302b63, #0f0c29); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Montserrat", sans-serif;
+}
+
+button {
+    border: 0;
+    outline: 0;
+    font-family: "Montserrat", sans-serif;
+}
+
+.container {
+    margin: 20px;
+    width: 400px;
+    max-width: 95%;
+    padding: 30px 25px;
+    background: #162447;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    color: var(--text-color);
+}
+
+/* Ajuste para o header da CCTB se houver */
+.container img {
+    display: block;
+    margin: 0 auto 15px;
+    border-radius: 5px;
+}
+
+h2.title {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* CAIXA DE RESULTADO */
+.result {
+    position: relative;
+    width: 100%;
+    height: 65px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: var(--field-border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.result__viewbox {
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    text-align: center;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-break: break-all;
+    padding: 0 10px;
+}
+
+/* Botão de Copiar */
+#copy-btn {
+    position: absolute;
+    top: var(--y);
+    left: var(--x);
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+    transition: all 350ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #162447;
+}
+
+.result:hover #copy-btn {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Mensagens de copiado */
+.result__info {
+    position: absolute;
+    bottom: 4px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.7rem;
+    transition: all 150ms ease-in-out;
+    transform: translateY(200%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.result__info.right { right: 8px; }
+.result__info.left { left: 8px; }
+
+/* TITULOS PEQUENOS */
+.field-title {
+    position: absolute;
+    top: -22px;
+    left: 0;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* SLIDER (Range) */
+.range__slider {
+    position: relative;
+    width: 100%;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--field-border-radius);
+    margin: 30px 0;
+}
+
+/* Números min e max do slider */
+.range__slider::before {
+    content: attr(data-min);
+    position: absolute;
+    left: 15px;
+    font-size: 0.8rem;
+    color: #fff;
+}
+
+.range__slider::after {
+    content: attr(data-max);
+    position: absolute;
+    right: 15px;
+    font-size: 0.8rem;
+    color: #fff;
+}
+
+.length__title::after {
+    content: attr(data-length);
+    position: absolute;
+    right: -25px;
+    font-variant-numeric: tabular-nums;
+    color: #fff;
+    font-size: 1rem;
+}
+
+#slider {
+    -webkit-appearance: none;
+    width: calc(100% - 70px);
+    height: 4px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+#slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+#slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    background: var(--accent-color);
+}
+
+/* CONFIGURAÇÕES (Checkboxes) */
+.settings {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+.setting {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--field-border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Texto na esq, botão na dir */
+    padding: 0 15px;
+    color: #fff;
+    transition: background 0.3s;
+}
+
+.setting:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Esconde o checkbox padrão */
+.setting input {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+/* Estilização do Label (Texto + Toggle Switch) */
+.setting label {
+    user-select: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none; /* Deixa o clique passar para o input */
+}
+
+/* O fundo do switch */
+.setting input + label::before {
+    content: "";
+    width: 45px;
+    height: 24px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* A bolinha do switch */
+.setting input + label::after {
+    content: "";
+    position: absolute;
+    right: 36px; /* Posição inicial (desligado) */
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
+/* Estado CHECADO */
+.setting input:checked + label::before {
+    background: var(--accent-color);
+}
+
+.setting input:checked + label::after {
+    right: 18px; /* Move a bolinha para a direita */
+}
+
+/* BOTÃO GERAR */
+.btn.generate {
+    user-select: none;
+    width: 100%;
+    height: 55px;
+    margin: 25px 0 10px;
+    border-radius: var(--field-border-radius);
+    color: #fff;
+    border: none;
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    letter-spacing: 1px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
+}
+
+.btn.generate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(118, 75, 162, 0.6);
+}
+
+.btn.generate:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(118, 75, 162, 0.4);
+}
+
+/* Rodapé / GitHub link */
+.support {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+}
+.support a {
+    color: rgba(255,255,255,0.5);
+    font-size: 1.5rem;
+}
+.support a:hover {
+    color: #fff;
+}
